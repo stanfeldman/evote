@@ -1,0 +1,18 @@
+{% extends "templates/base.html" %}
+
+{% block header %} Голосование {% endblock %}
+
+{% block content %}
+<ul data-role="listview" data-inset="true">
+<li>
+<form action="projects/add/" method="post"  data-transition="slideup">
+	<div data-role="fieldcontain"> 
+         <label for="name">Название:</label> 
+         <input type="text" name="name" id="name" value=""  /> 
+	</div>
+	<button type="submit" data-icon="check">Добавить</button>
+</form>
+</li>
+</ul>
+{% endblock %}
+

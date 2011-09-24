@@ -1,0 +1,10 @@
+{% extends "templates/base.html" %}
+
+{% block header %} Добро пожаловать! {% endblock %}
+
+{% block content %}
+<ul data-role="listview" data-inset="true">
+	<li><h2>Электронные выборы - это инструмент для безопасного и непротиворечивого проведения выборов.</h2></li>
+</ul>
+<a href="/vote/start" data-role="button" data-theme="e">Начать голосование</a>
+{% endblock %}

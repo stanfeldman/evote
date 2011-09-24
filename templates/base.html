@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
+        <title>Электронные выборы</title>
+        <link rel="stylesheet" href="static/css/jquery.mobile-1.0b3.min.css" />  
+        <style>
+        	body { background: #CCC;}
+        </style>
+        <script type="text/javascript" src="static/js/jquery-1.6.4.min.js"></script> 
+		<script type="text/javascript"> 
+		    $(document).bind("mobileinit", function(){
+		        $.extend($.mobile, {
+		            loadingMessage: "Загрузка...",
+		            pageLoadErrorMessage: "Страница не найдена =("
+		        });
+		    $.mobile.page.prototype.options.backBtnText = "Назад";
+		    $.mobile.listview.prototype.options.filterPlaceholder = "Найти...";
+			$.mobile.selectmenu.prototype.options.nativeMenu = false;  
+			$.mobile.page.prototype.options.degradeInputs.date = 'text';              
+		    });
+		</script> 
+		<script type="text/javascript" src="static/js/jquery.mobile-1.0b3.min.js"></script>
+    </head>
+    <body>
+		<div data-role="page" data-theme="b" style="height: 100%">
+			<div id="header" data-theme="b" data-role="header" data-position="fixed" data-backbtn="false">
+				{% block back_button %}{% endblock %}
+				<h1>Электронные выборы - {% block header %}{% endblock %}</h1>
+				{% block header_buttons %}{% endblock %}
+			</div>
+			<div data-role="content">
+				{% block content %}{% endblock %} 
+			</div>
+			<div id="footer" data-theme="b" data-role="footer" data-position="fixed">
+				<h4>Россия, Москва, 2011</h4>
+			</div>
+		</div>
+    </body>
+</html>
