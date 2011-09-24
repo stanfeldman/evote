@@ -10,16 +10,16 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-#DATABASES = {
-#    'default': {
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'evote',
-        #'USER': 'root',
-        #'PASSWORD': '!1ebet2@',
-        #'HOST': '',
-        #'PORT': '',
-#    }
-#}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'evote',
+        'USER': 'root',
+        'PASSWORD': '!1ebet2@',
+        'HOST': '',
+        'PORT': '',
+    }
+}
 
 # Local time zone for this installation. Choices can be found here:
 TIME_ZONE = 'Europe/Moscow'
@@ -78,6 +78,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+LOGIN_URL = "/auth/login"
+
 ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
@@ -88,6 +90,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.admin',
     "vote",
     "about"
 )

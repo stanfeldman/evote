@@ -1,0 +1,24 @@
+{% extends "templates/base.html" %}
+
+{% block header %} Голосование {% endblock %}
+
+{% block content %}
+<ul data-role="listview" data-inset="true">
+<li>
+<form action="projects/add/" method="post"  data-transition="slideup">
+	<div data-role="fieldcontain">
+		<fieldset data-role="controlgroup">
+			<legend>Сделайте правильный выбор:</legend>
+         	<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" checked="checked" />
+         	<label for="radio-choice-1">Краб</label>
+
+         	<input type="radio" name="radio-choice-1" id="radio-choice-2" value="choice-2"  />
+         	<label for="radio-choice-2">Медведь</label>
+		</fieldset>
+	</div>
+	<button type="submit" data-icon="check">Проголосовать</button>
+</form>
+</li>
+</ul>
+{% endblock %}
+
