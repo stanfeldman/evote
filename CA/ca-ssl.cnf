@@ -1,0 +1,164 @@
+RANDFILE = $ENV::PWD/.rnd
+oid_file = $ENV::PWD/.oid
+oid_section = new_oids
+# Используйте этот конфигурационный файл с опцией "-extfile" из
+# утилиты "openssl x509", имя секции содержит 
+# расширения  X.509v3, чтобы использовать:
+# extensions =
+# (Альтернативно, используйте конфигурационный файл который имеет только
+# X.509v3 расширения в основной [= default] секции.)
+[ new_oids ]
+# Мы можем добавить новый OIDs здесь для использования в 'ca' и 'req'.
+# Добавьте простой OID подобно этому:
+# testoid1=1.2.3.4
+# Или используйте подстановку конфигурационного файла наподобие этого:
+# testoid2=${testoid1}.5.6
+####################################################################
+[ ca ]
+default_ca = CA_gov # Это ca секция по умолчанию
+####################################################################
+[ CA_gov ]
+dir = $ENV::PWD/eVoteCA # Where everything is kept
+certs= $dir/certs # Where the issued certs are kept
+crl_dir= $dir/crl # Where the issued crl are kept
+database= $dir/index.txt # database index file.
+#unique_subject= no # Set to 'no' to allow creation of
+# several ctificates with same subject.
+new_certs_dir= $dir/newcerts # default place for new certs.
+
+certificate= $dir/cacert.pem # The CA certificate
+serial= $dir/serial # The current serial number
+crlnumber= $dir/crlnumber # the current crl number
+# must be commented out to leave a V1 CRL
+crl= $dir/crl.pem # The current CRL
+private_key= $dir/private/cakey.pem # The private key
+RANDFILE= $dir/private/.rand # private random number file
+
+x509_extensions= usr_cert
+
+# Расширение добавляемое к CRL. Замечание: Netscape communicator
+# основывается на V2 CRL так что по умолчанию это закомментировано,
+# чтобы оставить V1 CRL.
+# crl_extensions = crl_ext
+default_days = 365 # сколько времени удостоверяет
+default_crl_days = 30 # сколько времени до следующего CRL
+default_md = md5 # какой использовать md.
+Preserve = no # сохранять порядок пройденных DN
+# Несколько различных путей для определения, как подобные запросы должны
+# выглядеть для CA, список атрибутов должен быть такой же и  плюс некоторые
+# необязательные поля 
+policy = policy_match
+# Для CA политик
+[ policy_match ]
+countryName = match
+stateOrProvinceName = match
+organizationName = match
+organizationalUnitName = optional
+commonName = supplied
+emailAddress = optional
+# Для 'чьих угодно' политик
+# В этом пункте вы должны перечислить все приемлемые типы объектов
+[ policy_anything ]
+countryName = optional
+stateOrProvinceName = optional
+localityName = optional
+organizationName = optional
+organizationalUnitName = optional
+commonName = supplied
+emailAddress = optional
+####################################################################
+[ req ]
+default_bits = 1024
+default_keyfile = privkey.pem
+distinguished_name = req_distinguished_name
+attributes = req_attributes
+x509_extensions = v3_ca # Расширение добавляемое к самоподписанным сертификатам
+[ req_distinguished_name ]
+countryName = Country Name (2-х буквенный код)
+countryName_default = RU
+countryName_min = 2
+countryName_max = 2
+stateOrProvinceName = State or Province Name (полное имя)
+stateOrProvinceName_default = Russia
+localityName = Locality Name (например, город)
+localityName_default = Moscow
+0.organizationName = Organization Name (например, компания)
+0.organizationName_default = Part
+organizationalUnitName = Organizational Unit Name (например, подразделение)
+organizationalUnitName_default = Government
+commonName = Common Name (например, ВАШЕ имя)
+commonName_default =
+commonName_max = 64
+emailAddress = Email Address
+emailAddress_default =
+emailAddress_max = 40
+# SET-ex3 = SET extension number 3
+[ req_attributes ]
+challengePassword = A challenge password
+challengePassword_min = 4
+challengePassword_max = 20
+unstructuredName = An optional company name
+[ usr_cert ]
+# Эти расширения добавляются, когда 'ca' подписанный запрос.
+# Это идет против рекомендаций PKIX, но некоторые CA делают это и
+# некоторые программы запрашивают это, чтобы уклониться от
+# интерпретирования сертификатов конечных пользователей как CA.
+basicConstraints=CA:FALSE
+# Здесь приведены некоторые примеры использования nsCertType. Если это
+# пропущено, то сертификат может использоваться для каких-нибудь пропусков
+# подписаний объектов.
+# Это OK для сервера SSL.
+# nsCertType = server
+# Это используется для объекта, подписывающего сертификат.
+# nsCertType = objsign
+# Это обычно используется для нормальных клиентов
+# nsCertType = client, email
+# и для всего, включая объекты подписания:
+# nsCertType = client, email, objsign
+# Это типично в keyUsage для клиентских сертификатов.
+# keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+# Это будет выводится в списковом окне комментариев Netscape.
+nsComment = "OpenSSL Generated Certificate"
+# PKIX рекомендации, безопасно если включены  все сертификаты.
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer:always
+# Это для subjectAltName и issuerAltname.
+# Импортирование почтового адрес.
+# subjectAltName=email:copy
+# Copy subject details
+# issuerAltName=issuer:copy
+#nsCaRevocationUrl = http://www.domain.dom/ca-crl.pem
+#nsBaseUrl
+#nsRevocationUrl
+#nsRenewalUrl
+#nsCaPolicyUrl
+#nsSslServerName
+[ v3_ca ]
+# Расширение для типичного CA
+# Рекомендация PKIX.
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer:always
+# Это то, что рекомендует PKIX, но некоторые  ⌠неправильные■ программы
+# засоряют критическими расширениями
+#basicConstraints = critical,CA:true
+#Так мы делаем это вместо вышеприведенного.
+basicConstraints = CA:true
+# Ключевое использование: это типично для CA сертификатов. Однако, так как
+# это предотвратит использование для проверки самоподписанных
+# сертификатов, лучше по умолчанию это не учитывать.
+# keyUsage = cRLSign, keyCertSign
+# Некоторые могли бы хотеть также 
+# nsCertType = sslCA, emailCA
+# Включение почтового адреса в subject alt name: другая рекомендация PKIX
+# subjectAltName=email:copy
+# Копирование деталей запрашивающей стороны
+# issuerAltName=issuer:copy
+# RAW DER hex encoding of an extension: beware experts only!
+# 1.2.3.5=RAW:02:03
+# You can even override a supported extension:
+# basicConstraints= critical, RAW:30:03:01:01:FF
+[ crl_ext ]
+# CRL extensions.
+# Only issuerAltName and authorityKeyIdentifier make any sense in a CRL.
+# issuerAltName=issuer:copy
+authorityKeyIdentifier=keyid:always,issuer:always

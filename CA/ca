@@ -1,0 +1,26 @@
+#!/bin/sh -e
+
+export SSLEAY_CONFIG="-config $PWD/ca-ssl.cnf"
+export CATOP=$PWD/eVoteCA
+
+case "$1" in
+init)
+    rm -rf $CATOP
+    $PWD/CA.sh -newca
+
+    openssl x509 -in $CATOP/cacert.pem -days 3650 \
+        -out $CATOP/cacert.pem -signkey $CATOP/private/cakey.pem
+    ;;
+
+new) shift
+    [ -n "$1" ] || exit
+    $PWD/CA.sh -newreq
+    $PWD/CA.sh -sign
+    mv newcert.pem $1.pem
+    openssl rsa -in newreq.pem -out $1.key
+    rm -f newreq.pem
+    ;;
+*)
+    printf "Usage: ca [ init | new ID ]\n"
+    ;;
+esac
