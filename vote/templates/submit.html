@@ -1,0 +1,13 @@
+{% extends "templates/base.html" %}
+
+{% block header %} Ok {% endblock %}
+
+{% block content %}
+<ul data-role="listview" data-inset="true">
+	<li><h2>You have voted.</h2></li>
+</ul>
+{% endblock %}
+
+{% block footer_buttons %}
+<a href="/vote/find" data-role="button" data-theme="b" data-icon="search" class="ui-btn-right">Find my choice</a>
+{% endblock %}

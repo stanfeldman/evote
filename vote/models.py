@@ -18,7 +18,7 @@ class Choice(Model):
 class UserChoice(Model):
 	user = ForeignKey(User)
 	choice = ForeignKey(Choice)
-	date = DateTimeField()
+	date = DateTimeField(auto_now=True)
 	
 from django.contrib import admin
 admin.site.register(Poll)
