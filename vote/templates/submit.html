@@ -1,11 +1,16 @@
 {% extends "templates/base.html" %}
 
+{% load qr_tags %}
+
 {% block header %} Ok {% endblock %}
 
 {% block content %}
 <ul data-role="listview" data-inset="true">
 	<li><h2>You have voted.</h2></li>
 </ul>
+
+<img src="{% qr_code 'Hello World!' %}" />
+
 {% endblock %}
 
 {% block footer_buttons %}

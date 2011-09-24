@@ -92,7 +92,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.admin',
     "vote",
-    "about"
+    "about",
+    "qr_codes"
 )
 
 LOGGING = {
