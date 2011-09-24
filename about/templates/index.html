@@ -1,10 +1,25 @@
 {% extends "templates/base.html" %}
 
-{% block header %} Добро пожаловать! {% endblock %}
+{% block header %} Welcome! {% endblock %}
 
 {% block content %}
 <ul data-role="listview" data-inset="true">
-	<li><h2>Электронные выборы - это инструмент для безопасного и непротиворечивого проведения выборов.</h2></li>
+	<li><h2>Electronic elections - a tool for secure and consistent elections.</h2></li>
 </ul>
-<a href="/vote/choice" data-role="button" data-theme="e">Начать голосование</a>
+<ul data-role="listview" data-inset="true">
+	<li data-role="list-divider">Available polls</li>
+	{% for poll in poll_list %}
+		<li>
+			<a href="/vote/choice/{{ poll.id }}/">
+				<h3>{{ poll.question }}</h3>
+			</a>
+		</li>
+	{% empty %}
+		<li>There are no polls</li>
+	{% endfor %}
+</ul>
+{% endblock %}
+
+{% block footer_buttons %}
+<a href="/vote/find" data-role="button" data-theme="b" data-icon="search" class="ui-btn-right">Find my choice</a>
 {% endblock %}

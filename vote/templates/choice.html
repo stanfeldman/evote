@@ -1,6 +1,6 @@
 {% extends "templates/base.html" %}
 
-{% block header %} Голосование {% endblock %}
+{% block header %} Voting {% endblock %}
 
 {% block content %}
 <ul data-role="listview" data-inset="true">
@@ -8,15 +8,14 @@
 <form action="projects/add/" method="post"  data-transition="slideup">
 	<div data-role="fieldcontain">
 		<fieldset data-role="controlgroup">
-			<legend>Сделайте правильный выбор:</legend>
-         	<input type="radio" name="radio-choice-1" id="radio-choice-1" value="choice-1" checked="checked" />
-         	<label for="radio-choice-1">Краб</label>
-
-         	<input type="radio" name="radio-choice-1" id="radio-choice-2" value="choice-2"  />
-         	<label for="radio-choice-2">Медведь</label>
+			<legend>{{poll.question}}</legend>
+			{% for choice in choice_list %}
+         	<input type="radio" name="radio-choice" id="{{choice.id}}" value="{{choice.choice}}" />
+         	<label for="{{choice.id}}">{{choice.choice}}</label>
+         	{% endfor %}
 		</fieldset>
 	</div>
-	<button type="submit" data-icon="check">Проголосовать</button>
+	<button type="submit" data-icon="check" data-theme="e">Vote</button>
 </form>
 </li>
 </ul>

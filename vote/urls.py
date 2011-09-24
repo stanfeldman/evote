@@ -3,6 +3,7 @@ from views import *
 from django.views.generic import *
 
 urlpatterns = patterns('',
-    (r"choice/$", choice),
+    (r"choice/(\d+)/$", choice),
+    (r"find/$", find),
 )
 

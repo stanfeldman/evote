@@ -1,0 +1,20 @@
+{% extends "templates/base.html" %}
+
+{% block header %} Find your choice {% endblock %}
+
+{% block content %}
+<ul data-role="listview" data-inset="true">
+<li>
+<form action="vote/find/" method="post"  data-transition="slideup">
+	<div data-role="fieldcontain">
+		<fieldset data-role="controlgroup">
+			<label for="username">Username:</label>
+	        <input type="search" name="username" id="username" value="" />
+		</fieldset>
+	</div>
+	<button type="submit" data-icon="search">Find</button>
+</form>
+</li>
+</ul>
+{% endblock %}
+

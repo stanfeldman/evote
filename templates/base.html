@@ -3,7 +3,7 @@
     <head>
     	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />
-        <title>Электронные выборы</title>
+        <title>E-vote</title>
         <link rel="stylesheet" href="/static/css/jquery.mobile-1.0b3.min.css" />  
         <style>
         	body { background: #CCC;}
@@ -24,17 +24,25 @@
 		<script type="text/javascript" src="/static/js/jquery.mobile-1.0b3.min.js"></script>
     </head>
     <body>
-		<div data-role="page" data-theme="b" style="height: 100%">
-			<div id="header" data-theme="b" data-role="header" data-position="fixed" data-backbtn="false">
+		<div data-role="page" style="height: 100%">
+			<div id="header" data-role="header" data-position="fixed" data-backbtn="false">
 				{% block back_button %}{% endblock %}
-				<h1>Электронные выборы - {% block header %}{% endblock %}</h1>
+				<h1>E-vote - {% block header %}{% endblock %}</h1>
 				{% block header_buttons %}{% endblock %}
 			</div>
 			<div data-role="content">
 				{% block content %}{% endblock %} 
 			</div>
-			<div id="footer" data-theme="b" data-role="footer" data-position="fixed">
-				<h4>Россия, Москва, 2011</h4>
+			<div id="footer" data-role="footer" data-position="fixed">
+				<table>
+					<tr>
+						<td>
+							&nbsp;&nbsp;
+						</td>
+						<td style="width: 100%; text-align: center;">Russia, Moscow, 2011</td>
+						<td>{% block footer_buttons %}{% endblock %}</td>
+					</tr>
+				</table>
 			</div>
 		</div>
     </body>
