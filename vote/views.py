@@ -9,7 +9,7 @@ import datetime
 import random
 import uuid
 from django.core.urlresolvers import reverse
-from lib import evotegen
+from security import evotegen
 
 
 @login_required

@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.admin',
     "django_tornado",
+    "security",
     "vote",
     "about",
     "qr_codes"

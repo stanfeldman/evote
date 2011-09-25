@@ -9,7 +9,7 @@ class eVoteGEN:
   acert = None
   akey  = None
 
-  ca_path = settings.TEMPLATE_DIRS[0] + '/CA/'
+  ca_path = settings.TEMPLATE_DIRS[0] + '/security/CA/'
 
   def load_keys(self):
     if (self.loaded & 1) == 1:
