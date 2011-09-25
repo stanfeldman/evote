@@ -6,6 +6,7 @@ import django.contrib.auth
 def login(request):
 	state = "Please log in below..."
 	username = password = ''
+	next=request.GET.get("next");
 	if request.POST:
 		username = request.POST.get('username')
 		password = request.POST.get('password')
@@ -14,7 +15,7 @@ def login(request):
 			if user.is_active:
 				django.contrib.auth.login(request, user)
 				state = "You're successfully logged in!"
-				return HttpResponseRedirect('/vote/choice/')
+				return HttpResponseRedirect(next)
 			else:
 				state = "Your account is not active, please contact the site admin."
 		else:
