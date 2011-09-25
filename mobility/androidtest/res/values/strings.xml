@@ -37,9 +37,9 @@
   <string name="ok_button">OK</string>
   <string name="parameters_message">Collecting camera parameters to email to ZXing Team\u2026</string>
 
-  <string name="result_failed">No barcode found</string>
+  <string name="result_failed">Check error</string>
   <string name="result_failed_why">"The user gave up and pressed Back"</string>
-  <string name="result_succeeded">Found barcode</string>
+  <string name="result_succeeded">Check result</string>
 
   <string name="save_failed">Save failed - is the SD card installed?</string>
   <string name="save_succeeded">Save succeeded</string>
