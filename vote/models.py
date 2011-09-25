@@ -19,15 +19,19 @@ class Choice(Model):
     choice = CharField(max_length=200)
     def __unicode__(self):
 		return self.choice
-	
-class UserChoice(Model):
-	user = ForeignKey(User)
-	choice = ForeignKey(Choice)
-	date = DateTimeField(auto_now=True)
-	def __unicode__(self):
-		return self.id
+
+class Ballot(Model):
+    uuid = CharField(max_length=200)
+    poll = ForeignKey(Poll)
+    encoded_permutation = CharField(max_length=2048)
+    date = DateTimeField(auto_now=True)        
+    choice_index = IntegerField(null=True)
+    sign = CharField(max_length=1024, null=True)
+    
+    def __unicode__(self):
+        return self.id
 	
 from django.contrib import admin
 admin.site.register(Poll)
 admin.site.register(Choice)
-admin.site.register(UserChoice)
+admin.site.register(Ballot)

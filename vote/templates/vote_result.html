@@ -8,8 +8,10 @@
 <ul data-role="listview" data-inset="true">
 	<li><h2>You have voted.</h2></li>
 </ul>
+<p>Your ballot unique id: {{ballot.uuid}}</p>
+<p>Ballot garanty: <img src="{% qr_code ballot.encoded_permutation 250 %}" /></p>
+<p>Your choice: {{ballot.choice_index}}</p>
 
-<img src="{% qr_code user_choice_id %}" />
 
 {% endblock %}
 

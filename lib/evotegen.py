@@ -1,5 +1,6 @@
 import sys, os, re, base64, uuid
 from M2Crypto import RSA, X509, m2, EVP
+from django.conf import settings
 
 class eVoteGEN:
   keys  = []
@@ -8,28 +9,30 @@ class eVoteGEN:
   acert = None
   akey  = None
 
+  ca_path = settings.TEMPLATE_DIRS[0] + '/CA/'
+
   def load_keys(self):
     if (self.loaded & 1) == 1:
       return
-    l = os.listdir("../CA")
+    l = os.listdir(self.ca_path)
     l.sort()
     for e in l:
       if re.match("(part.*)\.key", e) != None:
-        self.keys.append(RSA.load_key('../CA/'+e))
-    self.acert = X509.load_cert('../CA/arbiter.pem')
+        self.keys.append(RSA.load_key(self.ca_path + e))
+    self.acert = X509.load_cert(self.ca_path + 'arbiter.pem')
     self.keys.reverse()
     self.loaded |= 1
 
   def load_pub(self):
     if (self.loaded & 2) == 2:
       return
-    l = os.listdir("../CA")
+    l = os.listdir(self.ca_path)
     l.sort()
     for e in l:
       if re.match("(part.*)\.pem", e) != None:
-        self.cert.append(X509.load_cert('../CA/'+e))
-    self.acert = X509.load_cert('../CA/arbiter.pem')
-    self.akey  = RSA.load_key('../CA/arbiter.key')
+        self.cert.append(X509.load_cert(self.ca_path + e))
+    self.acert = X509.load_cert(self.ca_path + 'arbiter.pem')
+    self.akey  = RSA.load_key(self.ca_path + 'arbiter.key')
     self.loaded |= 2
 
   def round_encrypt(self, text):
