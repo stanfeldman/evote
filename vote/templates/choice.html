@@ -1,20 +1,25 @@
 {% extends "templates/base.html" %}
+{% load qr_tags %}
 
 {% block header %} Voting {% endblock %}
 
 {% block content %}
 <ul data-role="listview" data-inset="true">
 <li>
+
 <form action="/vote/submit/" method="post" data-transition="slideup">
+  <p>Ballot id: {{ballot.uuid}}</p>
+  <p>Ballot garanty: <img src="{% qr_code ballot.encoded_permutation 250 %}" /></p>
 	<div data-role="fieldcontain">
 		<fieldset data-role="controlgroup">
 			<legend>{{poll.question}}</legend>
 			{% for choice in shuffled_choice_list %}
-         	<input type="radio" name="choice" id="{{choice.id}}" value="{{choice.id}}" />
-         	<label for="{{choice.id}}">{{choice.choice}}</label>
+         	<input type="radio" name="choice" id="{{forloop.counter0}}" value="{{forloop.counter0}}" />
+         	<label for="{{forloop.counter0}}">{{choice.choice}}</label>
          	{% endfor %}
 		</fieldset>
 	</div>
+	<input type="hidden" name="ballot" value="{{ballot.id}}" />
 	<button type="submit" data-icon="check" data-theme="e">Vote</button>
 </form>
 </li>
