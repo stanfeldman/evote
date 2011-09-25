@@ -19,6 +19,8 @@ class UserChoice(Model):
 	user = ForeignKey(User)
 	choice = ForeignKey(Choice)
 	date = DateTimeField(auto_now=True)
+	def __unicode__(self):
+		return self.id
 	
 from django.contrib import admin
 admin.site.register(Poll)

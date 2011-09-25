@@ -5,6 +5,7 @@ from django.views.generic import *
 urlpatterns = patterns('',
     (r"choice/(\d+)/$", choice),
     (r"find/$", find),
+    (r"vote_result/(\d+)/$", vote_result),
     (r"submit/$", submit),
 )
 

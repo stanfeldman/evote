@@ -7,6 +7,7 @@ from vote.models import *
 import datetime
 import random
 import uuid
+from django.core.urlresolvers import reverse
 
 @login_required
 def choice(request, pk):
@@ -25,7 +26,13 @@ def submit(request):
 		choice = get_object_or_404(Choice, id=request.POST.get('choice'))
 		user_choice = UserChoice(user=request.user, choice=choice)
 		user_choice.save()
-		return render_to_response("vote/templates/submit.html", locals(), context_instance=RequestContext(request))
+		user_choice_id = "http://" + request.get_host() + "/vote/vote_result/" + str(user_choice.id)
+		return render_to_response("vote/templates/vote_result.html", locals(), context_instance=RequestContext(request))
+		
+def vote_result(request, pk):
+	user_choice = get_object_or_404(UserChoice, id=pk)
+	user_choice_id = "http://" + request.get_host() + "/vote/vote_result/" + str(user_choice.id)
+	return render_to_response("vote/templates/vote_result.html", locals(), context_instance=RequestContext(request))
 	
 def find(request):
 	return render_to_response("vote/templates/find.html", locals(), context_instance=RequestContext(request))
