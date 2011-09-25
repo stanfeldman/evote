@@ -1,4 +1,4 @@
-import sys, os, re, base64
+import sys, os, re, base64, uuid
 from M2Crypto import RSA, X509, m2, EVP
 
 class eVoteGEN:
@@ -17,8 +17,8 @@ class eVoteGEN:
       if re.match("(part.*)\.key", e) != None:
         self.keys.append(RSA.load_key('../CA/'+e))
     self.acert = X509.load_cert('../CA/arbiter.pem')
-    self.loaded |= 1
     self.keys.reverse()
+    self.loaded |= 1
 
   def load_pub(self):
     if (self.loaded & 2) == 2:
@@ -29,11 +29,13 @@ class eVoteGEN:
       if re.match("(part.*)\.pem", e) != None:
         self.cert.append(X509.load_cert('../CA/'+e))
     self.acert = X509.load_cert('../CA/arbiter.pem')
-    self.akey = RSA.load_key('../CA/arbiter.key')
+    self.akey  = RSA.load_key('../CA/arbiter.key')
     self.loaded |= 2
 
   def round_encrypt(self, text):
     self.load_pub()
+    uid  = str(uuid.uuid4())
+    text = uid+"\n"+text
     for cert in self.cert:
       pad = m2.no_padding
       if len(text) != 128:
@@ -43,7 +45,7 @@ class eVoteGEN:
     md.update(text)
     md = md.final()
     sign = self.akey.sign(md, 'sha1')
-    return text+sign
+    return { 'uuid' : uid, 'evp' : base64.b64encode(text+sign) }
 
   def round_decrypt(self, enc):
     self.load_keys()
@@ -58,8 +60,32 @@ class eVoteGEN:
       enc = key.private_decrypt(enc, pad)
     return self.keys[-1].private_decrypt(enc, m2.pkcs1_padding)
 
+  def sign_vote(self, evp, vote, date):
+    self.load_pub()
+    md = EVP.MessageDigest('sha1')
+    md.update(evp)
+    md.update(str(vote))
+    md.update(str(date))
+    md = md.final()
+    sign = self.akey.sign(md, 'sha1')
+    return base64.b64encode(sign)
+
+  def check_vote(self, evp, vote, date, sign):
+    self.load_keys()
+    md = EVP.MessageDigest('sha1')
+    md.update(evp)
+    md.update(str(vote))
+    md.update(str(date))
+    md = md.final()
+    return self.akey.verify(md, base64.b64decode(sign))
+
 if __name__ == '__main__':
+  import time
+
   e = eVoteGEN()
-  enc = e.round_encrypt("bf9b9267-61bd-4619-9202-4c0bf38542b6\n13\n16\n1\n")
-  print "Enveloped:", base64.b64encode(enc)
-  print "Decrypted:\n-------------\n", e.round_decrypt(enc), "-------------"
+  enc = e.round_encrypt("13\n16\n1\n")
+  print "Enveloped:", enc['evp']
+  print "Decrypted:\n-------------\n", e.round_decrypt(base64.b64decode(enc['evp'])), "-------------"
+  date  = time.time()
+  svote = e.sign_vote(enc['evp'], 16, date)
+  print e.check_vote(enc['evp'], 16, date, svote)
