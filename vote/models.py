@@ -8,6 +8,11 @@ class Poll(Model):
     end_date = DateField()
     def __unicode__(self):
 		return self.question
+		
+class UserPoll(Model):
+	user = ForeignKey(User)
+	poll = ForeignKey(Poll)
+	date = DateTimeField(auto_now=True)
 
 class Choice(Model):
     poll = ForeignKey(Poll)
