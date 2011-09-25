@@ -49,11 +49,14 @@ def submit(request):
 		ballot.save()
 		return render_to_response("vote/templates/vote_result.html", locals(), context_instance=RequestContext(request))
 		
-def vote_result(request, pk):
-	user_choice = get_object_or_404(UserChoice, id=pk)
-	user_choice_id = "http://" + request.get_host() + "/vote/vote_result/" + str(user_choice.id)
-	return render_to_response("vote/templates/vote_result.html", locals(), context_instance=RequestContext(request))
+def vote_result(request):
+	if request.POST:
+		enc = request.POST.get("evp");
+		ballot = get_object_or_404(Ballot, encoded_permutation=enc)
+		return render_to_response("vote/templates/vote_result.html", locals(), context_instance=RequestContext(request))
 	
 def find(request):
+	if request.POST:
+		user = get_object_or_404(User, id=pk)
 	return render_to_response("vote/templates/find.html", locals(), context_instance=RequestContext(request))
 
