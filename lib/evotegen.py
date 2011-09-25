@@ -40,7 +40,13 @@ class eVoteGEN:
       pad = m2.no_padding
       if len(text) != 128:
         pad = m2.pkcs1_padding
-      text = cert.get_pubkey().get_rsa().public_encrypt(text, pad)
+      while True:
+        try:
+          text = cert.get_pubkey().get_rsa().public_encrypt(text, pad)
+        except:
+          pass
+        finally:
+          break
     md = EVP.MessageDigest('sha1')
     md.update(text)
     md = md.final()
@@ -57,8 +63,21 @@ class eVoteGEN:
     self.akey.verify(md, sign)
     for key in self.keys[:-1]:
       pad = m2.no_padding
-      enc = key.private_decrypt(enc, pad)
-    return self.keys[-1].private_decrypt(enc, m2.pkcs1_padding)
+      while True:
+        try:
+          enc = key.private_decrypt(enc, pad)
+        except:
+          pass
+        finally:
+          break
+    while True:
+      try:
+        enc = self.keys[-1].private_decrypt(enc, m2.pkcs1_padding)
+      except:
+        pass
+      finally:
+        break
+    return enc
 
   def sign_vote(self, evp, vote, date):
     self.load_pub()
